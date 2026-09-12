@@ -11,7 +11,7 @@ WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
 APIFY_URL = f"https://api.apify.com/v2/acts/clockworks~tiktok-scraper/run-sync-get-dataset-items?token={APIFY_TOKEN}"
 
 def get_latest_video():
-        payload = {
+    payload = {
         "profiles": [TIKTOK_USERNAME],
         "resultsPerPage": 3,
         "profileScrapeSections": ["videos"],
