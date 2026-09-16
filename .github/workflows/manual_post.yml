@@ -1,0 +1,24 @@
+name: Manual Discord post
+
+on:
+  workflow_dispatch:
+    inputs:
+      video_url:
+        description: "A TikTok videó teljes linkje"
+        required: true
+      title:
+        description: "Videó címe/leírása (opcionális)"
+        required: false
+        default: "Új TikTok videó"
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          curl -H "Content-Type: application/json" \
+               -d "{\"content\": \"📹 Új TikTok videó!\n**${{ inputs.title }}**\n${{ inputs.video_url }}\"}" \
+               "$DISCORD_WEBHOOK_URL"
