@@ -49,10 +49,11 @@ def post_to_discord(video_url, title):
     if not WEBHOOK_URL:
         print("Missing DISCORD_WEBHOOK_URL secret.")
         sys.exit(1)
-    payload = {"content": f"📹 Új TikTok videó!\n**{title}**\n{video_url}"}
+    embed_url = video_url.replace("tiktok.com", "tnktok.com")
+    payload = {"content": f"📹 Új TikTok videó!\n**{title}**\n{embed_url}"}
     resp = requests.post(WEBHOOK_URL, json=payload, timeout=15)
     resp.raise_for_status()
-
+    
 def main():
     videos = get_recent_videos()
     if not videos:
