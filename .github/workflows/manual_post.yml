@@ -18,7 +18,9 @@ jobs:
       - name: Post to Discord
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          VIDEO_URL: ${{ inputs.video_url }}
+          TITLE: ${{ inputs.title }}
         run: |
-          curl -H "Content-Type: application/json" \
-               -d "{\"content\": \"📹 Új TikTok videó!\n**${{ inputs.title }}**\n${{ inputs.video_url }}\"}" \
-               "$DISCORD_WEBHOOK_URL"
+          EMBED_URL="${VIDEO_URL//tiktok.com/tnktok.com}"
+          PAYLOAD=$(jq -n --arg t "$TITLE" --arg u "$EMBED_URL" '{content: ("📹 Új TikTok videó!\n**" + $t + "**\n" + $u)}')
+          curl -H "Content-Type: application/json" -d "$PAYLOAD" "$DISCORD_WEBHOOK_URL"
